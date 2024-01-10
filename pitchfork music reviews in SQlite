@@ -1,0 +1,110 @@
+-- Num of highest scored songs 
+SELECT COUNT(title)
+FROM reviews 
+WHERE score >='8';
+
+-- Titles of top scored songs
+SELECT title, pub_year
+FROM reviews
+WHERE score >= '8'
+ORDER By score DESC;
+
+-- genres of top rated songs
+SELECT genre, COUNT(title)
+FROM genres AS g
+LEFT JOIN reviews AS r 
+ON g.reviewid = r.reviewid 
+GROUP BY genre 
+HAVING score >='8'
+ORDER BY count(title) DESC;
+
+-- author and num of top scored releases 
+SELECT author, count(title) as best_prod
+FROM reviews AS r
+LEFT JOIN genres AS g
+ON r.reviewid = g.reviewid
+GROUP BY author 
+HAVING genre in (SELECT genre
+FROM genres AS g
+LEFT JOIN reviews AS r 
+ON g.reviewid = r.reviewid 
+GROUP BY genre 
+HAVING score >='8'
+ORDER BY count(title) DESC)
+ORDER BY best_prod DESC;
+
+-- Num of releases with scores higher than 8
+SELECT pub_year,count(title) AS songs_rated_upove8
+FROM reviews
+GROUP BY pub_year
+HAVING score >='8'
+ORDER by  songs_rated_upove8 DESC;
+
+-- Num of releases with scores below 8
+SELECT pub_year,count(title) AS songs_rated_below8
+FROM reviews
+GROUP BY pub_year
+HAVING score <'8'
+ORDER by  songs_rated_below8 DESC;
+
+-- Which label produces the most of the upove 8 scored songs
+SELECT label, count(title)AS num_prod_upove8
+FROM labels as l
+LEFT JOIN reviews as r 
+ON l.reviewid = r.reviewid
+GROUP BY label 
+HAVING score >='8'
+ORDER BY num_prod_upove8 DESC;
+
+-- Authors with most top scored releases
+SELECT author ,count(title) as top_creations
+FROM reviews AS r
+GROUP BY author
+HAVING score >='8'
+ORDER BY top_creations DESC;
+
+-- Artist with most top scored songs
+SELECT artist ,count(title) as best_releases
+FROM reviews AS r
+GROUP BY artist
+HAVING score >='8'
+ORDER BY best_releases DESC;
+
+-- Which publish year has the most releases of the top rated songs
+SELECT pub_year , count(title) num_best_releases
+FROM reviews 
+GROUP BY pub_year 
+HAVING score >= '8' 
+ORDER BY num_best_releases DESC;
+
+-- total productions per label 
+SELECT label, pub_year,count(title) AS total_productions 
+FROM labels AS l 
+LEFT JOIN reviews AS r 
+ON l.reviewid = r.reviewid
+GROUP BY pub_year
+ORDER BY total_productions DESC;
+
+-- Songs labeld as 'best_new_music' 
+SELECT title
+FROM reviews
+WHERE best_new_music = '1';
+
+-- percentage of best new music labeld songs
+SELECT ROUND(AVG(best_new_music ='1')*100,2) AS percentage
+FROM reviews
+
+-- num of releases by genre 
+SELECT genre, count(title)
+FROM reviews AS r 
+LEFT JOIN genres AS g 
+ON r.reviewid = g.reviewid 
+GROUP by genre
+
+-- Least genres prostions of releases 
+SELECT genre , count(title) as num_productions
+FROM genres AS g 
+LEFT JOIN reviews AS r
+ON g.reviewid = r.reviewid
+GROUP BY genre
+ORDER BY num_productions;
