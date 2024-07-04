@@ -14,7 +14,7 @@ I've used the PitchFork music review on Kaggle to analyze and inspect the follow
  -- Songs labeld as 'best_new_music'
  -- Percentage of best new music labeld songs
  -- Num of releases by genre 
- -- Least genres prostions of releases  
+ -- Least genres produtions of releases  
 
  The database source: https://www.kaggle.com/datasets/nolanbconaway/pitchfork-data
  
