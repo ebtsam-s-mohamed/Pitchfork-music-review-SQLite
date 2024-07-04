@@ -101,7 +101,7 @@ LEFT JOIN genres AS g
 ON r.reviewid = g.reviewid 
 GROUP by genre
 
--- Least genres prostions of releases 
+-- Least genres produtions of releases 
 SELECT genre , count(title) as num_productions
 FROM genres AS g 
 LEFT JOIN reviews AS r
